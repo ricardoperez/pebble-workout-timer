@@ -6,12 +6,21 @@ Window *window;
 TextLayer *text_layer;
 int *counter;
 int teipo = 30;
-//char count_text[10];
+int repeat = 3;
+int wait = 2; 
 
 void update_timer_text(void){
   static char s_buffer[4];
   snprintf(s_buffer, sizeof(s_buffer), "%d", teipo);
 	text_layer_set_text(text_layer, s_buffer);
+}
+
+void repeat_timer(void){
+  
+}
+
+void wait_for(void){
+  
 }
 
 void timer(void *context) {
