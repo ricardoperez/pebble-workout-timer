@@ -1,0 +1,20 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "riperezzz@gmail.com",
+    "enableMultiJS": true,
+    "longName": "exercise-timer",
+    "projectType": "native",
+    "resources": {
+        "media": []
+    },
+    "sdkVersion": "3",
+    "shortName": "exercise-timer",
+    "uuid": "09d62a3b-ee65-49f1-ae38-6b47585b60c2",
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": false
+    }
+}
