@@ -50,6 +50,18 @@ static void timer(void *context) {
   }
 }
 
+static void start_timer(){
+  app_timer_register(1000, timer, NULL);
+}
+
+static void select_click_handler(ClickRecognizerRef recognizer, void *context) {
+  start_timer();
+}
+
+static void click_config_provider(void *context) {
+  window_single_click_subscribe(BUTTON_ID_SELECT, select_click_handler); 
+}
+
 void handle_init(void) {
   original_tempo = tempo;
   original_wait = wait;
@@ -60,10 +72,11 @@ void handle_init(void) {
 	// Set the text, font, and text alignment
 	text_layer_set_font(text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
 	text_layer_set_text_alignment(text_layer, GTextAlignmentCenter);
-  app_timer_register(1000, timer, NULL);
+
 	// Add the text layer to the window
 	layer_add_child(window_get_root_layer(window), text_layer_get_layer(text_layer));
 	// Push the window
+  window_set_click_config_provider(window, click_config_provider);
 	window_stack_push(window, true);
 }
 
