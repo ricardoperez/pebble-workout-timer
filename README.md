@@ -1,7 +1,8 @@
-# pebble-workout-timer
+# Pebble Workout Timer
+
+An example, and almost functional, pebble timer app for wourkout sets.
 
 
 ## TODOs
-
-* Click to start the timer
+* pre-loaded list of sets.
 * Accept/Persist input data, like timer countdown, wait countdown, repetitions and sets.
