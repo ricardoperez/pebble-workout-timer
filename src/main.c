@@ -8,11 +8,12 @@ int *counter;
 
 static void timer(void *context);
 
-int tempo = 15;
-int repeat = 2;
-int wait = 3; 
-int original_tempo;
-int original_wait;
+int original_tempo = 15;
+int original_wait = 4;
+int original_repeat = 5;
+int tempo;
+int wait; 
+int repeat;
 
 void update_timer_text(void){
   static char s_buffer[4];
@@ -26,16 +27,17 @@ void wait_for(void *context){
   if (wait > 0){
     app_timer_register(1000, wait_for, NULL);
   }else{
-    repeat--;
+    repeat--; // DRY THIS
+    vibes_double_pulse();
     tempo = original_tempo;
     wait = original_wait;
-    vibes_short_pulse();
+    update_timer_text();
     app_timer_register(1000, timer, NULL);
   }
 }
 
 void cabo(void){
-  vibes_double_pulse();
+  vibes_long_pulse();
   text_layer_set_text(text_layer, "DONE!!");
 }
 
@@ -45,12 +47,20 @@ static void timer(void *context) {
   if (tempo > 0 ){
     app_timer_register(1000, timer, NULL);
   }else{
-    vibes_long_pulse();
-    (repeat > 0) ? wait_for(NULL) : cabo();
+    if (repeat > 0){ 
+      vibes_short_pulse();
+      wait_for(NULL);
+    }else{ 
+      cabo(); 
+    }
   }
 }
 
 static void start_timer(){
+  tempo = original_tempo;
+  wait = original_wait;
+  repeat = original_repeat;
+  update_timer_text();
   app_timer_register(1000, timer, NULL);
 }
 
@@ -63,13 +73,11 @@ static void click_config_provider(void *context) {
 }
 
 void handle_init(void) {
-  original_tempo = tempo;
-  original_wait = wait;
   // Create a window and text layer
   window = window_create();
-  text_layer = text_layer_create(GRect(0, 30, 144, 154));
-  update_timer_text();
+  text_layer = text_layer_create(GRect(0, 60, 144, 154));
   // Set the text, font, and text alignment
+  text_layer_set_text(text_layer, "START --->");
   text_layer_set_font(text_layer, fonts_get_system_font(FONT_KEY_GOTHIC_28_BOLD));
   text_layer_set_text_alignment(text_layer, GTextAlignmentCenter);
 
